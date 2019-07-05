@@ -1,0 +1,42 @@
+﻿@using Aplicacion_Aboga2.Models
+@model Expediente
+@{
+    ViewBag.Title = "InsertarExpedientes";
+}
+
+<h2>InsertarExpedientes</h2>
+@Html.ActionLink("Volver atras", "ABMExpedientes", "Backoffice")
+<br />
+<table>
+    @using (Html.BeginForm("InsertarExpediente", "Backoffice", FormMethod.Post))
+   {
+        @Html.HiddenFor(x => x.IdExpediente)
+        <tr>
+            <td> @Html.Label("Numero del expediente")</td>
+            <td> @Html.TextBoxFor(x => x.NumeroExpediente)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Descripcion")</td>
+            <td> @Html.TextBoxFor(x => x.Descripcion)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Caratula")</td>
+            <td> @Html.TextBoxFor(x => x.Caratula)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Estado")</td>
+            <td>
+                @Html.RadioButtonFor(x => x.Estado, 0) @Html.Label("Sin Comenzar")<br />
+                @Html.RadioButtonFor(x => x.Estado, 1) @Html.Label("En Proceso")<br />
+                @Html.RadioButtonFor(x => x.Estado, 2) @Html.Label("Finalizado")<br />
+            </td>
+        </tr>
+        <td> @Html.Label("NumeroExpediente")</td>
+        <input type="hidden" name="Accion" value="@ViewBag.Accion" />
+        <input type="submit" value="Insertar expediente" />
+        <
+    }
+
+
+    </table>
+

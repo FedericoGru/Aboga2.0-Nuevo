@@ -1,0 +1,33 @@
+﻿@using Aplicacion_Aboga2.Models
+@model Expediente
+@{
+    {
+        ViewBag.Title = "ABMExpedientes";
+    }
+
+    <h2>ABMExpedientes</h2>
+
+    @Html.ActionLink("Volver atras", "Menu", "Backoffice")
+
+    using (Html.BeginForm("FormExpediente", "Backoffice", FormMethod.Post))
+    {
+        <th>@Html.ActionLink("Insertar Expediente", "InsertarExpediente", "Backoffice", new { Accion = "Insertar" }, null)</th>
+        <table>
+            @foreach (Expediente ex in ViewBag.Expedientes)
+            {
+                <tr>
+                    <td>@ex.NumeroExpediente</td>
+                    <td>@ex.Descripcion</td>
+                    <td>@ex.Caratula</td>
+                    <td>@(ex.Estado==0?"Sin Iniciar":ex.Estado==1?"Iniciado":"Terminado")</td>
+                    <td>@(BD.TraerUnJuzgado(ex.IdJuzgadoExpediente).NumeroyRadicacion )</td>
+                    <td>@(BD.TraerUnTipoDeExpediente(ex.IdTipoExpediente).TipoDeExpediente)</td>
+                    <td></td>
+                    <td>@Html.ActionLink("Eliminar ", "FormExpediente", "Backoffice", new { Accion = "Eliminar", IdEx = ex.IdExpediente , IdJuz = ex.IdJuzgadoExpediente, IdTipExp = ex.IdTipoExpediente}, null)</td>
+                    <td>@Html.ActionLink("Modificar ", "FormExpediente", "Backoffice", new { Accion = "Obtener", IdEx = ex.IdExpediente, IdJuz = ex.IdJuzgadoExpediente, IdTipExp = ex.IdTipoExpediente }, null)</td>
+                </tr>                
+            }
+        </table>
+       
+    }
+}
