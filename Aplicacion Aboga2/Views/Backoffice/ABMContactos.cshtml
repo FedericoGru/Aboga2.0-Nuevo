@@ -12,7 +12,7 @@
 
     using (Html.BeginForm("FormContactos", "Backoffice", FormMethod.Post))
     {
-        <th>@Html.ActionLink("Insertar Contacto", "InsertarContacto", "Backoffice", new { Accion = "Insertar" }, null)</th>
+        <th>@Html.ActionLink("Insertar Contacto", "InsertarContactos", "Backoffice", new { Accion = "Insertar" }, null)</th>
         <table>
             @foreach (Contactos contacto in ViewBag.Contactos)
             {

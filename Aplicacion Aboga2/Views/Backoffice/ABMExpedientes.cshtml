@@ -19,15 +19,16 @@
                     <td>@ex.NumeroExpediente</td>
                     <td>@ex.Descripcion</td>
                     <td>@ex.Caratula</td>
-                    <td>@(ex.Estado==0?"Sin Iniciar":ex.Estado==1?"Iniciado":"Terminado")</td>
+                    <td>@(ex.Estado == 0 ? "Sin Iniciar" : ex.Estado == 1 ? "Iniciado" : "Terminado")</td>
                     <td>@(BD.TraerUnJuzgado(ex.IdJuzgadoExpediente).NumeroyRadicacion )</td>
                     <td>@(BD.TraerUnTipoDeExpediente(ex.IdTipoExpediente).TipoDeExpediente)</td>
                     <td></td>
-                    <td>@Html.ActionLink("Eliminar ", "FormExpediente", "Backoffice", new { Accion = "Eliminar", IdEx = ex.IdExpediente , IdJuz = ex.IdJuzgadoExpediente, IdTipExp = ex.IdTipoExpediente}, null)</td>
+                    <td>@Html.ActionLink("Eliminar ", "FormExpediente", "Backoffice", new { Accion = "Eliminar", IdEx = ex.IdExpediente, IdJuz = ex.IdJuzgadoExpediente, IdTipExp = ex.IdTipoExpediente }, null)</td>
                     <td>@Html.ActionLink("Modificar ", "FormExpediente", "Backoffice", new { Accion = "Obtener", IdEx = ex.IdExpediente, IdJuz = ex.IdJuzgadoExpediente, IdTipExp = ex.IdTipoExpediente }, null)</td>
-                </tr>                
+                    <td>@Html.ActionLink("Ver Contactos", "FormExpedienteContacto", "Backoffice", new { Accion = "VerContactos" }, null)</td>
+                </tr>
             }
         </table>
-       
+
     }
 }

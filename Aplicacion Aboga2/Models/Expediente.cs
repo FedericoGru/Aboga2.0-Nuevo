@@ -12,7 +12,7 @@ namespace Aplicacion_Aboga2.Models
         private int _IdTipoExpediente;
         private string _Descripcion;
         private int _IdJuzgadoExpediente;
-        private int _NumeroExpediente;
+        private string _NumeroExpediente;
         private int _Estado;
         private string _Caratula;
     
@@ -37,7 +37,7 @@ namespace Aplicacion_Aboga2.Models
             get { return _IdJuzgadoExpediente; }
             set { _IdJuzgadoExpediente = value; }
         }
-        public int NumeroExpediente
+        public string NumeroExpediente
         {
             get { return _NumeroExpediente; }
             set { _NumeroExpediente = value; }
@@ -53,7 +53,7 @@ namespace Aplicacion_Aboga2.Models
             set { _Caratula = value; }
         }
 
-        public Expediente(int IdExpediente, int IdTipoExpediente, string Descripcion, int IdJuzgadoExpediente, int NumeroExpediente,int Estado, string Caratula)
+        public Expediente(int IdExpediente, int IdTipoExpediente, string Descripcion, int IdJuzgadoExpediente, string NumeroExpediente,int Estado, string Caratula)
         {
             _IdExpediente = IdExpediente;
             _IdTipoExpediente = IdTipoExpediente;

@@ -60,22 +60,6 @@ namespace Aplicacion_Aboga2.Controllers
             }
             return View("SinAccion");
         }
-        public ActionResult FormContacto(string Accion, int IdCont)
-        {
-            Contactos UnContacto = BD.TraerContacto(IdCont);
-            ViewBag.Accion = Accion;
-            if (Accion == "Obtener")
-            {
-                return View("EdicionContacto", UnContacto);
-            }
-            if (Accion == "Eliminar")
-            {
-                BD.EliminarContactos(UnContacto);
-                ViewBag.Contactos = BD.TraerContactos();
-                return View("ABMContactos");
-            }
-            return View("SinAccion");
-        }
         [HttpPost]
         public ActionResult EdicionExpediente(Expediente ex, string Accion)
         {
@@ -107,6 +91,22 @@ namespace Aplicacion_Aboga2.Controllers
                 return View("ABMExpedientes");
             }
         }
+  public ActionResult FormContacto(string Accion, int IdCont)
+        {
+            Contactos UnContacto = BD.TraerContacto(IdCont);
+            ViewBag.Accion = Accion;
+            if (Accion == "Obtener")
+            {
+                return View("EdicionContacto", UnContacto);
+            }
+            if (Accion == "Eliminar")
+            {
+                BD.EliminarContactos(UnContacto);
+                ViewBag.Contactos = BD.TraerContactos();
+                return View("ABMContactos");
+            }
+            return View("SinAccion");
+        }
   [HttpPost]
         public ActionResult EdicionContacto(Contactos cont, string Accion)
         {
@@ -123,7 +123,7 @@ namespace Aplicacion_Aboga2.Controllers
                 {
                     if (Accion == "Insertar")
                     {
-                        BD.InsertarContacto(cont);
+                        BD.InsertarContactos(cont);
                         ViewBag.Contactos = BD.TraerContactos();
                         return View("ABMContactos");
                     }
@@ -151,6 +151,22 @@ namespace Aplicacion_Aboga2.Controllers
             ViewBag.Accion = Accion;
             Contactos con = new Contactos();
             return View(con);
+        }
+       public ActionResult FormExpedienteContacto(string Accion, int IdContEx)
+        {
+            ExpedienteContacto UnExpedienteContacto = BD.TraerExpedienteContacto(IdContEx);
+            ViewBag.Accion = Accion;
+            if (Accion=="VerContactos")
+            {
+                return View("ContactosExpediente", UnExpedienteContacto);
+            }
+            return View("SinAccion");
+        }
+        public ActionResult ContactosExpediente(Expediente ex)
+        {
+            ViewBag.ExpedienteContacto = BD.TraerExpedientePorContacto();
+            ViewBag.ExpedienteContacto = BD.TraerExpedientePorContacto();
+            return View();
         }
     }
     }
