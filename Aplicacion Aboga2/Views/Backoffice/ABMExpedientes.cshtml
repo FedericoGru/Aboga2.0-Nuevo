@@ -15,20 +15,17 @@
         <table>
             @foreach (Expediente ex in ViewBag.Expedientes)
             {
-                <tr>
-                    <td>@ex.NumeroExpediente</td>
-                    <td>@ex.Descripcion</td>
-                    <td>@ex.Caratula</td>
-                    <td>@(ex.Estado == 0 ? "Sin Iniciar" : ex.Estado == 1 ? "Iniciado" : "Terminado")</td>
-                    <td>@(BD.TraerUnJuzgado(ex.IdJuzgadoExpediente).NumeroyRadicacion )</td>
-                    <td>@(BD.TraerUnTipoDeExpediente(ex.IdTipoExpediente).TipoDeExpediente)</td>
-                    <td></td>
-                    <td>@Html.ActionLink("Eliminar ", "FormExpediente", "Backoffice", new { Accion = "Eliminar", IdEx = ex.IdExpediente, IdJuz = ex.IdJuzgadoExpediente, IdTipExp = ex.IdTipoExpediente }, null)</td>
-                    <td>@Html.ActionLink("Modificar ", "FormExpediente", "Backoffice", new { Accion = "Obtener", IdEx = ex.IdExpediente, IdJuz = ex.IdJuzgadoExpediente, IdTipExp = ex.IdTipoExpediente }, null)</td>
-                    <td>@Html.ActionLink("Ver Contactos", "FormExpedienteContacto", "Backoffice", new { Accion = "VerContactos" }, null)</td>
-                </tr>
+            <tr>
+                <td>@ex.NumeroExpediente</td>
+                <td>@ex.Descripcion</td>
+                <td>@ex.Caratula</td>
+                <td>@(ex.Estado == 1 ? "Iniciado" : "Terminado")</td>
+                <td>@Html.ActionLink("Eliminar ", "FormExpediente", "Backoffice", new { Accion = "Eliminar", IdEx = ex.IdExpediente }, null)</td>
+                <td>@Html.ActionLink("Modificar ", "FormExpediente", "Backoffice", new { Accion = "Obtener", IdEx = ex.IdExpediente }, null)</td>
+              --  <td>@Html.ActionLink("Mirar Fojas ", "ABMExpedienteFojas", "Backoffice", new { Accion = "Mirar", IdEx = ex.IdExpediente }, null)</td>
+            </tr>                
             }
         </table>
-
+       
     }
 }

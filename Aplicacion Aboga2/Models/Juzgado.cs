@@ -27,12 +27,6 @@ namespace Aplicacion_Aboga2.Models
             get { return _Radicacion; }
             set { _Radicacion = value; }
         }
-
-        public string NumeroyRadicacion
-        {
-            get { return _NumeroDeJuzgado.ToString() + " - " + Radicacion; }
-        }
-
         public Juzgado(int IdJuzgado, int NumeroDeJuzgado, string Radicacion)
         {
             _IdJuzgado = IdJuzgado;

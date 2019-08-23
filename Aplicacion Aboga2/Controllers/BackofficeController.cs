@@ -34,25 +34,46 @@ namespace Aplicacion_Aboga2.Controllers
             ViewBag.Expedientes = BD.TraerExpedientes();
             return View();
         }
+        public ActionResult ABMContactos(Contacto contacto)
+        {
+            ViewBag.Contactos = BD.TraerContactos();
+            return View();
+        }
+
+        public ActionResult ABMExpedienteFojas(ExpedienteFojas Expf, int IdEx)
+        {
+            ViewBag.ExpedienteFojas = BD.TraerLasExpFojas(IdEx);
+            return View();
+        }
+
         public ActionResult InsertarExpediente(string Accion)
         {
             ViewBag.Accion = Accion;
-            Expediente exp = new Expediente();
-            ViewBag.Juzgados = BD.TraerJuzgados();
-            ViewBag.TiposExpedientes = BD.TraerTipoDeExpedientes();
-            return View(exp);
+            return View();
         }
-        public ActionResult FormExpediente(string Accion, int IdEx, int IdJuz)
+        public ActionResult InsertarContacto(string Accion)
+        {
+            ViewBag.Accion = Accion;
+            Contacto con = new Contacto();
+            return View(con);
+        }
+
+        public ActionResult InsertarExpedienteFojas(string Accion)
+        {
+            ViewBag.Accion = Accion;
+            ExpedienteFojas Expf = new ExpedienteFojas();
+            return View(Expf);
+        }
+
+        public ActionResult FormExpediente(string Accion, int IdEx)
         {
             Expediente UnExpediente = BD.TraerExpediente(IdEx);
-            ViewBag.Juzgados = BD.TraerJuzgados();
-            ViewBag.TiposExpedientes = BD.TraerTipoDeExpedientes();
             ViewBag.Accion = Accion;
             if (Accion == "Obtener")
             {
-                return View("EdicionExpediente", UnExpediente);
+               return View("EdicionExpediente", UnExpediente);
             }
-            if (Accion == "Eliminar")
+            if (Accion=="Eliminar")
             {
                 BD.Eliminar(IdEx);
                 ViewBag.Expedientes = BD.TraerExpedientes();
@@ -60,6 +81,43 @@ namespace Aplicacion_Aboga2.Controllers
             }
             return View("SinAccion");
         }
+        public ActionResult FormContacto(string Accion, int IdCont)
+        {
+            Contacto UnContacto = BD.TraerContacto(IdCont);
+            ViewBag.Accion = Accion;
+            if (Accion == "Obtener")
+            {
+                return View("EdicionContacto", UnContacto);
+            }
+            if (Accion == "Eliminar")
+            {
+                BD.EliminarContactos(IdCont);
+                ViewBag.Contactos = BD.TraerContactos();
+                return View("ABMContactos");
+            }
+            return View("SinAccion");
+        }
+
+        public ActionResult FormExpedienteFojas(string Accion, int IdExpf,int IdEx)
+        {
+            ExpedienteFojas UnexpedienteFojas= BD.TraerExpediente_fojas(IdExpf);
+            ViewBag.Accion = Accion;
+            if (Accion == "Obtener")
+            {
+                return View("EdicionExpedienteFojas", UnexpedienteFojas);
+            }
+            if (Accion == "Eliminar")
+            {
+                BD.EliminarContactos(IdExpf);
+                ViewBag.ExpedienteFojas = BD.TraerLasExpFojas(IdEx);
+                return View("ABMExpedientesFojas");
+            }
+            return View("SinAccion");
+        }
+
+
+
+
         [HttpPost]
         public ActionResult EdicionExpediente(Expediente ex, string Accion)
         {
@@ -70,45 +128,36 @@ namespace Aplicacion_Aboga2.Controllers
             }
             else
             {
-                if (Accion == "Obtener")
+                if(Accion == "Obtener")
                 {
                     BD.ModificarExpediente(ex);
                     ViewBag.Expedientes = BD.TraerExpedientes();
                     return View("ABMExpedientes");
-
+                    
                 }
                 else
                 {
                     if (Accion == "Insertar")
                     {
-                        BD.InsertarExpediente(ex);
-                        ViewBag.Expedientes = BD.TraerExpedientes();
-                        return View("ABMExpedientes");
+                        if (!ModelState.IsValid)
+                        {
+                            ViewBag.Expedientes = BD.InsertarExpediente(ex);
+                            return View("InsertarExpediente");
+                        }
+                        else
+                        {
+                            BD.InsertarExpediente(ex);
+                            ViewBag.Expedientes = BD.InsertarExpediente(ex);
+                            return View("ABMExpedientes");
+                        }
                     }
                 }
-                //}
-                ViewBag.Expedientes = BD.TraerExpedientes();
-                return View("ABMExpedientes");
             }
+            ViewBag.Expedientes = BD.TraerExpedientes();
+            return View("ABMExpedientes");
         }
-  public ActionResult FormContacto(string Accion, int IdCont)
-        {
-            Contactos UnContacto = BD.TraerContacto(IdCont);
-            ViewBag.Accion = Accion;
-            if (Accion == "Obtener")
-            {
-                return View("EdicionContacto", UnContacto);
-            }
-            if (Accion == "Eliminar")
-            {
-                BD.EliminarContactos(UnContacto);
-                ViewBag.Contactos = BD.TraerContactos();
-                return View("ABMContactos");
-            }
-            return View("SinAccion");
-        }
-  [HttpPost]
-        public ActionResult EdicionContacto(Contactos cont, string Accion)
+        [HttpPost]
+        public ActionResult EdicionContacto(Contacto cont, string Accion)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +172,7 @@ namespace Aplicacion_Aboga2.Controllers
                 {
                     if (Accion == "Insertar")
                     {
-                        BD.InsertarContactos(cont);
+                        BD.InsertarContacto(cont);
                         ViewBag.Contactos = BD.TraerContactos();
                         return View("ABMContactos");
                     }
@@ -131,43 +180,42 @@ namespace Aplicacion_Aboga2.Controllers
             }
             else
             {
-                return View("InsertarContactos");
+                return View("InsertarContacto");
             }
             return View("Error");
         }
-        public ActionResult InsertarContacto(string Accion)
-        {
-            ViewBag.Accion = Accion;
-            Contactos con = new Contactos();
-            return View(con);
-        }
-        public ActionResult ABMContactos(Contactos contacto)
-        {
-            ViewBag.Contactos = BD.TraerContactos();
-            return View();
-        }
-        public ActionResult InsertarContactos(string Accion)
-        {
-            ViewBag.Accion = Accion;
-            Contactos con = new Contactos();
-            return View(con);
-        }
-       public ActionResult FormExpedienteContacto(string Accion, int IdContEx)
-        {
-            ExpedienteContacto UnExpedienteContacto = BD.TraerExpedienteContacto(IdContEx);
-            ViewBag.Accion = Accion;
-            if (Accion=="VerContactos")
-            {
-                return View("ContactosExpediente", UnExpedienteContacto);
-            }
-            return View("SinAccion");
-        }
-        public ActionResult ContactosExpediente(Expediente ex)
-        {
-            ViewBag.ExpedienteContacto = BD.TraerExpedientePorContacto();
-            ViewBag.ExpedienteContacto = BD.TraerExpedientePorContacto();
-            return View();
-        }
-    }
-    }
 
+
+        [HttpPost]
+        public ActionResult EdicionExpedienteFojas(ExpedienteFojas Expf, string Accion, int IdEx)
+        {
+            if (ModelState.IsValid)
+            {
+                if (Accion == "Obtener")
+                {
+                    BD.ModificarExpFojas(Expf);
+                    ViewBag.ExpedienteFojas = BD.TraerLasExpFojas(IdEx);
+                    return View("ABMExpedientesFojas");
+
+                }
+                else
+                {
+                    if (Accion == "Insertar")
+                    {
+                        BD.InsertarFojas(Expf);
+                        ViewBag.ExpedienteFojas = BD.TraerLasExpFojas(IdEx);
+                        return View("ABMExpedientesFojas");
+                    }
+                }
+            }
+            else
+            {
+                return View("InsertarFojas");
+            }
+            return View("Error");
+        }
+
+    }
+}
+
+  

@@ -1,0 +1,40 @@
+﻿@using Aplicacion_Aboga2.Models
+@model Contacto
+@{
+    ViewBag.Title = "Insertar Contacto";
+}
+
+<h2>InsertarContacto</h2>
+@Html.ActionLink("Volver atras", "ABMContactos", "Backoffice")
+<br />
+<table>
+    @using (Html.BeginForm("EdicionContacto", "Backoffice", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.IdContacto)
+        
+        <tr>
+            <td> @Html.Label("Nombre")</td>
+            <td> @Html.TextBoxFor(x => x.Nombre)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Apellido")</td>
+            <td> @Html.TextBoxFor(x => x.Apellido)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("NumTelefono")</td>
+            <td> @Html.TextBoxFor(x => x.NumTelefono)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Estado del Contacto")</td>
+            <td>
+                @Html.RadioButtonFor(x => x.Estado, true) @Html.Label(" Activo")<br />
+                @Html.RadioButtonFor(x => x.Estado, false) @Html.Label(" Inactivo")<br />
+            </td>
+        </tr>
+        <input type="hidden" name="Accion" value="@ViewBag.Accion" />
+        <input type="submit" value="Insertar Contacto" />
+    }
+
+
+</table>
+

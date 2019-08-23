@@ -43,23 +43,22 @@ namespace Aplicacion_Aboga2.Models
 
 
 
-        public static void InsertarExpediente(Expediente expedientes)
+        public static int InsertarExpediente(Expediente expedientes)
         {
-            int a = 0;
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandText = "sp_Crear_expediente";
+            consulta.CommandText = "sp_Crear_cliente_ORIGINAL";
             consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            //consulta.Parameters.AddWithValue("@ID_EXPEDIENETES", expedientes.IdExpediente);
+            consulta.Parameters.AddWithValue("@ID_EXPEDIENETES", expedientes.IdExpediente);
             consulta.Parameters.AddWithValue("@ID_TIPO_EXPEDIENTES", expedientes.IdTipoExpediente);
             consulta.Parameters.AddWithValue("@DESCRIPCION", expedientes.Descripcion);
             consulta.Parameters.AddWithValue("@ID_JUZGADO_EXPEDIENTE", expedientes.IdJuzgadoExpediente);
             consulta.Parameters.AddWithValue("@NUMERO_EXPEDIENTES", expedientes.NumeroExpediente);
             consulta.Parameters.AddWithValue("@ESTADO", expedientes.Estado);
             consulta.Parameters.AddWithValue("@CARATULA", expedientes.Caratula);
-            consulta.ExecuteNonQuery();
+            int RegsAfectados = consulta.ExecuteNonQuery();
             Desconectar(Conexion);
-
+            return RegsAfectados;
         }
 
 
@@ -77,115 +76,17 @@ namespace Aplicacion_Aboga2.Models
             {
                 int IdExpedientes = Convert.ToInt32(dataReader["ID_EXPEDIENETES"]);
                 int IdTipoExpedientes = Convert.ToInt32(dataReader["ID_TIPO_EXPEDIENTES"]);
-                string Descripcions = dataReader["DESCRIPCION"].ToString();
+                string Descripcion = dataReader["DESCRIPCION"].ToString();
                 int IdJuzgadoExpedientes = Convert.ToInt32(dataReader["ID_JUZGADO_EXPEDIENTE"]);
                 int NumeroExpedientes = Convert.ToInt32(dataReader["NUMERO_EXPEDIENTES"]);
                 int Estado = Convert.ToInt32(dataReader["ESTADO"]);
                 string Caratula = dataReader["CARATULA"].ToString();
-                Expediente exp = new Expediente(IdExpedientes, IdTipoExpedientes, Descripcions, IdJuzgadoExpedientes, NumeroExpedientes, Estado, Caratula);
+                Expediente exp = new Expediente(IdExpedientes, IdTipoExpedientes, Descripcion, IdJuzgadoExpedientes, NumeroExpedientes, Estado, Caratula);
                 Lista.Add(exp);
             }
             Desconectar(Conexion);
             return Lista;
         }
-
-        public static List<Juzgado> TraerJuzgados()
-        {
-            List<Juzgado> Lista = new List<Juzgado>();
-            SqlConnection Conexion = Conectar();
-            SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandText = "sp_Traer_Juzgados";
-            consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            SqlDataReader dataReader = consulta.ExecuteReader();
-            while (dataReader.Read())
-            {
-                int IdJuzgado = Convert.ToInt32(dataReader["ID_JUZGADO"]);
-                int NunJuz = Convert.ToInt32(dataReader["NUMERO_JUZGADO"]);
-                string Radicacion = dataReader["RADICACION"].ToString();
-                Juzgado juz = new Juzgado(IdJuzgado, NunJuz, Radicacion);
-                Lista.Add(juz);
-            }
-            Desconectar(Conexion);
-            return Lista;
-        }
-        public static Juzgado TraerUnJuzgado(int idJuzgado)
-        {
-            SqlConnection Conexion = Conectar();
-            SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandText = "sp_Traer_Un_Juzgado";
-            consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            consulta.Parameters.AddWithValue("@Id_Juzgado", idJuzgado);
-            SqlDataReader dataReader = consulta.ExecuteReader();
-            Juzgado Juz = new Juzgado();
-            while (dataReader.Read())
-            {
-                int IdJuzgado = Convert.ToInt32(dataReader["ID_JUZGADO"]);
-                int NunJuz = Convert.ToInt32(dataReader["NUMERO_JUZGADO"]);
-                string Radicacion = dataReader["RADICACION"].ToString();
-
-                Juz = new Juzgado(IdJuzgado, NunJuz, Radicacion);
-            }
-            Desconectar(Conexion);
-            return Juz;
-        }
-        /*public static Juzgado TraerUnJuzgado(int idJuzgado)
-        {
-            SqlConnection Conexion = Conectar();
-            SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandText = "sp_Traer_Juzgado";
-            consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            consulta.Parameters.AddWithValue("@Id_Juzgado", idJuzgado);
-            SqlDataReader dataReader = consulta.ExecuteReader();
-            Juzgado Juz = new Juzgado();
-            while (dataReader.Read())
-            {
-                int IdJuzgado = Convert.ToInt32(dataReader["ID_JUZGADO"]);
-                int NunJuz = Convert.ToInt32(dataReader["NUMERO_JUZGADO"]);
-                string Radicacion = dataReader["RADICACION"].ToString();
-
-                Juz = new Juzgado(IdJuzgado, NunJuz, Radicacion);
-            }
-            Desconectar(Conexion);
-            return Juz;
-        }*/
-        public static List<Tipo_de_expediente> TraerTipoDeExpedientes()
-        {
-            List<Tipo_de_expediente> Lista = new List<Tipo_de_expediente>();
-            SqlConnection Conexion = Conectar();
-            SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandText = "sp_Traer_Tipos_de_Expedientes";
-            consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            SqlDataReader dataReader = consulta.ExecuteReader();
-            while (dataReader.Read())
-            {
-                int IdTipoExp = Convert.ToInt32(dataReader["ID_TIPO_EXPEDIENTES"]);
-                string TipoExp = dataReader["TIPO_EXPEDIENTE"].ToString();
-                Tipo_de_expediente TipExp = new Tipo_de_expediente(IdTipoExp, TipoExp);
-                Lista.Add(TipExp);
-            }
-            Desconectar(Conexion);
-            return Lista;
-        }
-        public static Tipo_de_expediente TraerUnTipoDeExpediente(int Id)
-        {
-            
-            SqlConnection Conexion = Conectar();
-            SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandText = "sp_Traer_Tipo_de_Expediente";
-            consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            consulta.Parameters.AddWithValue("@Id_Tipo_De_Expediente", Id);
-            SqlDataReader dataReader = consulta.ExecuteReader();
-            Tipo_de_expediente TipExp = new Tipo_de_expediente();
-            while (dataReader.Read())
-            {
-                int IdTipoExp= Convert.ToInt32(dataReader["ID_TIPO_EXPEDIENTES"]);
-                string TipoExp = dataReader["TIPO_EXPEDIENTE"].ToString();
-                Tipo_de_expediente tipExp = new Tipo_de_expediente(IdTipoExp, TipoExp);
-            }
-            Desconectar(Conexion);
-            return TipExp;
-        }
-
         public static int Eliminar(int IdExpediente)
         {
             SqlConnection Conexion = Conectar();
@@ -201,6 +102,7 @@ namespace Aplicacion_Aboga2.Models
 
         public static Expediente TraerExpediente(int idexpediente)
         {
+            /*List<Personaje> ListaPj = new List<Personaje>();*/
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
             consulta.CommandText = "sp_Traer_Expediente";
@@ -217,13 +119,13 @@ namespace Aplicacion_Aboga2.Models
                 int NumeroExpedientes = Convert.ToInt32(dataReader["NUMERO_EXPEDIENTES"]);
                 int Estado = Convert.ToInt32(dataReader["ESTADO"]);
                 string Caratula = dataReader["CARATULA"].ToString();
-
                 exp = new Expediente(IdExpedientes, IdTipoExpedientes, Descripcions, IdJuzgadoExpedientes, NumeroExpedientes, Estado, Caratula);
             }
             Desconectar(Conexion);
             return exp;
         }
-        public static int ModificarContacto(Contactos contactos)
+
+        public static int ModificarContacto(Contacto contactos)
         {
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
@@ -238,10 +140,10 @@ namespace Aplicacion_Aboga2.Models
             Desconectar(Conexion);
             return RegsAfectados;
         }
-        public static List<Contactos> TraerContactos()
+        public static List<Contacto> TraerContactos()
         {
             /*List<Personaje> ListaPj = new List<Personaje>();*/
-            List<Contactos> Lista = new List<Contactos>();
+            List<Contacto> Lista = new List<Contacto>();
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
             consulta.CommandText = "sp_Traercontactos";
@@ -255,31 +157,31 @@ namespace Aplicacion_Aboga2.Models
                 int NumeroTelefono = Convert.ToInt32(dataReader["NUM_TELEFONO"]);
                 bool Estado = Convert.ToBoolean(dataReader["ESTADO"]);
 
-                Contactos cont = new Contactos(IdContacto, Nombre, Apellido, NumeroTelefono, Estado);
+                Contacto cont = new Contacto(IdContacto, Nombre, Apellido, NumeroTelefono, Estado);
                 Lista.Add(cont);
             }
             Desconectar(Conexion);
             return Lista;
         }
-        public static int EliminarContactos(Contactos contactos)
+        public static int EliminarContactos(int Idcontacto)
         {
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
             consulta.CommandText = "sp_eliminar_Contacto";
             consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            consulta.Parameters.AddWithValue("@id", contactos.IdContacto);
+            consulta.Parameters.AddWithValue("@id", Idcontacto);
             int RegsAfectados = consulta.ExecuteNonQuery();
             Desconectar(Conexion);
             return RegsAfectados;
         }
 
-        public static Contactos TraerContacto(int id)
+        public static Contacto TraerContacto(int id)
         {
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
             consulta.CommandText = "sp_Traer_Contacto";
             consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            Contactos cont = new Contactos();
+            Contacto cont = new Contacto();
             consulta.Parameters.AddWithValue("@id_contacto", id);
             SqlDataReader dataReader = consulta.ExecuteReader();
             if (dataReader.Read())
@@ -290,15 +192,14 @@ namespace Aplicacion_Aboga2.Models
                 int NumeroTelefono = Convert.ToInt32(dataReader["NUM_TELEFONO"]);
                 bool Estado = Convert.ToBoolean(dataReader["ESTADO"]);
 
-                cont = new Contactos(IdContacto, Nombre, Apellido, NumeroTelefono, Estado);
+                cont = new Contacto(IdContacto, Nombre, Apellido, NumeroTelefono, Estado);
 
             }
             Desconectar(Conexion);
             return cont;
         }
 
-
-        public static int InsertarContactos(Contactos contactos)
+        public static int InsertarContacto(Contacto contactos)
         {
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
@@ -313,27 +214,110 @@ namespace Aplicacion_Aboga2.Models
             Desconectar(Conexion);
             return RegsAfectados;
         }
-        public static ExpedienteContacto TraerExpedientePorContacto(int idContEx)
+
+
+
+
+        public static int InsertarFojas(ExpedienteFojas fojas)
         {
             SqlConnection Conexion = Conectar();
             SqlCommand consulta = Conexion.CreateCommand();
-            consulta.CommandText = "TraerExpedientePorContacto";
+            consulta.CommandText = "SP_INSERTAR_FOJA";
             consulta.CommandType = System.Data.CommandType.StoredProcedure;
-            ExpedienteContacto ContEx = new ExpedienteContactos();
-            consulta.Parameters.AddWithValue("@id_contacto", id);
+            consulta.Parameters.AddWithValue("@FECHA_INICIO",fojas.FechaInicio);
+            consulta.Parameters.AddWithValue("@FECHA_FIN", fojas.FechaFin);
+            consulta.Parameters.AddWithValue("@ESTADO_ESPECIFICO", fojas.EstadoEspecifico);
+            consulta.Parameters.AddWithValue("@DESCRIPCION", fojas.Descripcion);
+            int RegsAfectados = consulta.ExecuteNonQuery();
+            Desconectar(Conexion);
+            return RegsAfectados;
+        }
+
+        public static int EliminarFojas(int idFojas)
+        {
+            SqlConnection Conexion = Conectar();
+            SqlCommand consulta = Conexion.CreateCommand();
+            consulta.CommandText = "SP_ELIMINAR_FOJAS";
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            consulta.Parameters.AddWithValue("@ID_EXPEDIENTE_FOJAS", idFojas);
+            int RegsAfectados = consulta.ExecuteNonQuery();
+            Desconectar(Conexion);
+            return RegsAfectados;
+        }
+
+        public static ExpedienteFojas TraerExpediente_fojas(int id)
+        {
+            SqlConnection Conexion = Conectar();
+            SqlCommand consulta = Conexion.CreateCommand();
+            consulta.CommandText = "SP_TRAERFOJA";
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            ExpedienteFojas Foj = new ExpedienteFojas();
+            consulta.Parameters.AddWithValue("@ID_FOJA", id);
             SqlDataReader dataReader = consulta.ExecuteReader();
             if (dataReader.Read())
             {
-                int IdContacto = Convert.ToInt32(dataReader["ID_CONTACTO"]);
-                int IdExpedienteContacto = Convert.ToInt32(dataReader["ID_EXPEDIENTE_CONTACTO"]);
-                int IdExepdiente = Convert.ToInt32(dataReader["ID_EXPEDIENTE"]);
-                int IdTipoContacto = Convert.ToInt32(dataReader["ID_TIPO_CONTACTO"]);
+                int IdFojas = Convert.ToInt32(dataReader["ID_FOJAS"]);
+                int IdExp = Convert.ToInt32(dataReader["ID_EXPEDIENTE"]);
+                DateTime FechaInicio = Convert.ToDateTime(dataReader["FECHA_INICIO"]);
+                DateTime FechaFin = Convert.ToDateTime(dataReader["FECHA_FIN"]);
+                string EstadoEsp = dataReader["ESTADO_ESPECIFICO"].ToString();
+                string Descripcion = dataReader["DESCRIPCION"].ToString();
+                
 
-                cont = new Contactos(IdContacto, IdExpedienteContacto, IdExepdiente, IdTipoContacto);
+                Foj = new ExpedienteFojas(IdFojas, IdExp, FechaInicio, FechaFin, EstadoEsp, Descripcion);
 
             }
             Desconectar(Conexion);
-            return ContEx;
+            return Foj;
         }
+
+        public static List<ExpedienteFojas>TraerLasExpFojas(int id)
+        {
+            /*List<Personaje> ListaPj = new List<Personaje>();*/
+            List<ExpedienteFojas> Lista = new List<ExpedienteFojas>();
+            SqlConnection Conexion = Conectar();
+            SqlCommand consulta = Conexion.CreateCommand();
+            consulta.CommandText = "SP_TRAERFOJASDONDE";
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            consulta.Parameters.AddWithValue("@ID_EXPEDIENTE",id );
+            SqlDataReader dataReader = consulta.ExecuteReader();
+            while (dataReader.Read())
+            {
+                int IdFojas = Convert.ToInt32(dataReader["ID_FOJAS"]);
+                int IdExp = Convert.ToInt32(dataReader["ID_EXPEDIENTE"]);
+                DateTime FechaInicio = Convert.ToDateTime(dataReader["FECHA_INICIO"]);
+                DateTime FechaFin = Convert.ToDateTime(dataReader["FECHA_FIN"]);
+                string EstadoEsp = dataReader["ESTADO_ESPECIFICO"].ToString();
+                string Descripcion = dataReader["DESCRIPCION"].ToString();
+
+
+                ExpedienteFojas Foj = new ExpedienteFojas(IdFojas, IdExp, FechaInicio, FechaFin, EstadoEsp, Descripcion);
+
+                     Lista.Add(Foj);
+            }
+            Desconectar(Conexion);
+            return Lista;
+        }
+
+        public static int ModificarExpFojas(ExpedienteFojas fojas)
+        {
+            SqlConnection Conexion = Conectar();
+            SqlCommand consulta = Conexion.CreateCommand();
+            consulta.CommandText = "sp_Modificar_Contacto";
+            consulta.CommandType = System.Data.CommandType.StoredProcedure;
+            consulta.Parameters.AddWithValue("@ID_FOJA", fojas.IdFojas);
+            consulta.Parameters.AddWithValue("@FECHA_INICIO", fojas.FechaInicio);
+            consulta.Parameters.AddWithValue("@FECHA_FIN", fojas.FechaFin);
+            consulta.Parameters.AddWithValue("@ESTADO_ESPECIFICO", fojas.EstadoEspecifico);
+            consulta.Parameters.AddWithValue("@DESCRIPCION", fojas.Descripcion);
+            int RegsAfectados = consulta.ExecuteNonQuery();
+            Desconectar(Conexion);
+            return RegsAfectados;
+        }
+
+
+
+
+
     }
 }

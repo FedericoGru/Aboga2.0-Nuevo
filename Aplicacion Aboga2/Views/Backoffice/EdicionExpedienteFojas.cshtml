@@ -1,0 +1,37 @@
+﻿@using Aplicacion_Aboga2.Models
+@model ExpedienteFojas
+@{
+    ViewBag.Title = "Edicion Fojas";
+}
+
+<h2>Edicion Fojas</h2>
+@Html.ActionLink("Volver atras", "ABMExpedientesFojas", "Backoffice")
+<br />
+<table>
+    @using (Html.BeginForm("EdicionFojas", "Backoffice", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.IdFojas)
+        @Html.HiddenFor(x => x.IdExpediente)
+
+        <tr>
+            <td> @Html.Label("Fecha de inicio")</td>
+            <td> @Html.TextBoxFor(x => x.FechaInicio)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Fecha de Fin")</td>
+            <td> @Html.TextBoxFor(x => x.FechaFin)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label(" Estado especifico ")</td>
+            <td> @Html.TextBoxFor(x => x.EstadoEspecifico)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label(" Descripcion ")</td>
+            <td> @Html.TextBoxFor(x => x.Descripcion)</td>
+        </tr>
+      
+        <input type="hidden" value="@ViewBag.Accion" name="Accion" />
+        <input type="submit" value="ModificarFojas" />
+    }
+</table>
+

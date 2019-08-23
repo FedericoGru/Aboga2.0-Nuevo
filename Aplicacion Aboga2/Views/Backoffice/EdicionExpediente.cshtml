@@ -1,46 +1,38 @@
 ﻿@using Aplicacion_Aboga2.Models
 @model Expediente
-    @{
-        ViewBag.Title = "Edicion Expediente";
-    }
+@{
+    ViewBag.Title = "Edicion Expediente";
+}
 
-    <h2>EdicionExpediente</h2>
-    @Html.ActionLink("Volver atras", "ABMExpedientes", "Backoffice")
-    <br />
-    <table>
-        @using (Html.BeginForm("EdicionExpediente", "Backoffice", FormMethod.Post))
-        {
-            @Html.HiddenFor(x => x.IdExpediente)
-            @Html.HiddenFor(x => x.IdJuzgadoExpediente)
-            <tr>
-                <td> @Html.Label(" Numero del expediente ")</td>
-                <td> @Html.TextBoxFor(x => x.NumeroExpediente)</td>
-            </tr>
-            <tr>
-                <td> @Html.Label("Descripcion")</td>
-                <td> @Html.TextBoxFor(x => x.Descripcion)</td>
-            </tr>
-            <tr>
-                <td> @Html.Label(" Caratula ")</td>
-                <td> @Html.TextBoxFor(x => x.Caratula)</td>
-            </tr>
-            <tr>
-                <td> @Html.Label("Juzgado")</td>
-                <td> @Html.DropDownListFor(x => x.IdJuzgadoExpediente, new SelectList(ViewBag.Juzgados, "IdJuzgado", "NumeroyRadicacion"))</td>
-            </tr>
-            <tr>
-                <td> @Html.Label("Tipo de Expediente")</td>
-                <td> @Html.DropDownListFor(x => x.IdTipoExpediente, new SelectList(ViewBag.TiposExpedientes, "IdTipoDeExpediente", "TipoDeExpediente"))</td>
-            </tr>
-            <tr>
-                <td> @Html.Label("Estado")</td>
-                <td>
-                    @Html.RadioButtonFor(x => x.Estado, 0) @Html.Label("Sin Comenzar")<br />
-                    @Html.RadioButtonFor(x => x.Estado, 1) @Html.Label("En Proceso")<br />
-                    @Html.RadioButtonFor(x => x.Estado, 2) @Html.Label("Finalizado")<br />
-                </td>
-            </tr>
-            <input type="hidden" value="@ViewBag.Accion" name="Accion" />
-            <input type="submit" value="Modificar Expediente" />
-        }
-    </table>
+<h2>EdicionExpediente</h2>
+@Html.ActionLink("Volver atras", "ABMExpedientes", "Backoffice")
+<br />
+<table>
+    @using (Html.BeginForm("EdicionExpediente", "Backoffice", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.IdExpediente)
+        @Html.HiddenFor(x => x.IdJuzgadoExpediente)
+        <tr>
+            <td> @Html.Label(" Numero del expediente ")</td>
+            <td> @Html.TextBoxFor(x => x.NumeroExpediente)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Descripcion")</td>
+            <td> @Html.TextBoxFor(x => x.Descripcion)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label(" Caratula ")</td>
+            <td> @Html.TextBoxFor(x => x.Caratula)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Estado")</td>
+            <td>
+                @Html.RadioButtonFor(x => x.Estado, 0) @Html.Label("Sin Comenzar")<br />
+                @Html.RadioButtonFor(x => x.Estado, 1) @Html.Label("En Proceso")<br />
+                @Html.RadioButtonFor(x => x.Estado, 2) @Html.Label("Finalizado")<br />
+            </td>
+        </tr>
+        <input type="hidden" value="@ViewBag.Accion" name="Accion" />
+        <input type="submit" value="Modificar Expediente" />
+    }
+</table>

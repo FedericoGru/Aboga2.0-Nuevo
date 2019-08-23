@@ -1,5 +1,5 @@
 ﻿@using Aplicacion_Aboga2.Models
-@model Contactos
+@Model Contacto
 @{
     {
         ViewBag.Title = "ABMContactos";
@@ -12,20 +12,25 @@
 
     using (Html.BeginForm("FormContactos", "Backoffice", FormMethod.Post))
     {
-        <th>@Html.ActionLink("Insertar Contacto", "InsertarContactos", "Backoffice", new { Accion = "Insertar" }, null)</th>
+        <th>@Html.ActionLink("Insertar Contacto", "InsertarContacto", "Backoffice", new { Accion = "Insertar" }, null)</th>
         <table>
-            @foreach (Contactos contacto in ViewBag.Contactos)
+            @foreach (Contacto contacto in ViewBag.Contactos)
             {
-                <tr>
-                    <td>@contacto.Nombre</td>
-                    <td>@contacto.Apellido</td>
-                    <td>@contacto.NumTelefono</td>
-                    <td>@(contacto.Estado == true ? "Activo" : "Inactivo")</td>
-                    <td>@Html.ActionLink("Eliminar ", "FormContacto", "Backoffice", new { Accion = "Eliminar", IdCont = contacto.IdContacto }, null)</td>
-                    <td>@Html.ActionLink("Modificar ", "FormContacto", "Backoffice", new { Accion = "Obtener", IdCont = contacto.IdContacto }, null)</td>
-                </tr>
+            <tr>
+                <td>@contacto.Nombre<br /></td>
+                <td>@contacto.Apellido<br /></td>
+                <td>@contacto.NumTelefono</td>
+                <td>@(contacto.Estado == true ? "Activo" : "Inactivo")</td>
+                <td>@Html.ActionLink("Eliminar ", "FormContacto", "Backoffice", new { Accion = "Eliminar", IdCont = contacto.IdContacto }, null)</td>
+                <td>@Html.ActionLink("Modificar ", "FormContacto", "Backoffice", new { Accion = "Obtener", IdCont = contacto.IdContacto }, null)</td>
+
+            </tr>
             }
         </table>
 
     }
 }
+
+
+
+

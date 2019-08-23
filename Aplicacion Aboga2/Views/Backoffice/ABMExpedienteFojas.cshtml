@@ -1,0 +1,32 @@
+﻿@using Aplicacion_Aboga2.Models
+@Model ExpedienteFojas
+@{
+    {
+        ViewBag.Title = "ABMExpedientesFojas";
+    }
+
+    <h1>ABMFojas</h1>
+
+
+    @Html.ActionLink("Volver atras", "Menu", "Backoffice")
+
+    using (Html.BeginForm("FormExpedienteFojas", "Backoffice", FormMethod.Post))
+    {
+        <th>@Html.ActionLink("Insertar Foja", "InsertarExpedienteFojas", "Backoffice", new { Accion = "Insertar" }, null)</th>
+        <table>
+            @foreach (ExpedienteFojas Expf in ViewBag.ExpedienteFojas)
+            {
+                <tr>
+                    <td>@Expf.FechaInicio  <br /></td>
+                    <td>@Expf.FechaFin<br /></td>
+                    <td>@Expf.EstadoEspecifico</td>
+                    <td>@Expf.Descripcion</td>
+                    <td>@Html.ActionLink("Eliminar ", "FormExpedienteFojas", "Backoffice", new { Accion = "Eliminar", IdExpf = Expf.IdFojas }, null)</td>
+                    <td>@Html.ActionLink("Modificar ", "FormExpedienteFojas", "Backoffice", new { Accion = "Obtener", IdExpf = Expf.IdFojas }, null)</td>
+
+                </tr>
+            }
+        </table>
+
+    }
+}

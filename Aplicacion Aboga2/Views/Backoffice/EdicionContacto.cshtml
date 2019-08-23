@@ -1,5 +1,5 @@
 ﻿@using Aplicacion_Aboga2.Models
-@model Contactos
+@model Contacto
 @{
     ViewBag.Title = "Edicion Contacto";
 }
@@ -11,8 +11,8 @@
     @using (Html.BeginForm("EdicionContacto", "Backoffice", FormMethod.Post))
     {
         @Html.HiddenFor(x => x.IdContacto)
-
-
+      
+      
         <tr>
             <td> @Html.Label("Nombre")</td>
             <td> @Html.TextBoxFor(x => x.Nombre)</td>
@@ -36,3 +36,4 @@
         <input type="submit" value="Modificar Contacto" />
     }
 </table>
+

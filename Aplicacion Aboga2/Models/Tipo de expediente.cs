@@ -28,6 +28,8 @@ namespace Aplicacion_Aboga2.Models
         }
         public Tipo_de_expediente()
         {
+            IdTipoDeExpediente = IdTipoDeExpediente;
+            TipoDeExpediente = TipoDeExpediente;
         }
     }
 }

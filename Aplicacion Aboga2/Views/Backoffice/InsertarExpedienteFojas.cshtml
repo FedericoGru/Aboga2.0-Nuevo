@@ -1,0 +1,39 @@
+﻿@using Aplicacion_Aboga2.Models
+@model ExpedienteFojas
+@{
+    ViewBag.Title = "Insertar ExpedienteFojas";
+}
+
+<h1>InsertarFojas</h1>
+@Html.ActionLink("Volver atras", "ABMExpedienteFojas", "Backoffice")
+<br />
+<table>
+    @using (Html.BeginForm("EdicionExpedienteFojas", "Backoffice", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.IdFojas)
+        @Html.HiddenFor(x => x.IdExpediente)
+
+
+
+        <tr>
+            <td> @Html.Label("Fecha De Inicio")</td>
+            <td> @Html.TextBoxFor(x => x.FechaInicio)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Fecha de Fin")</td>
+            <td> @Html.TextBoxFor(x => x.FechaFin)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Estado Especifico")</td>
+            <td> @Html.TextBoxFor(x => x.EstadoEspecifico)</td>
+        </tr>
+        <tr>
+            <td> @Html.Label("Descripcion")</td>
+            <td> @Html.TextBoxFor(x => x.Descripcion)</td>
+        </tr>
+        <input type="hidden" name="Accion" value="@ViewBag.Accion" />
+        <input type="submit" value="InsertarFojas" />
+    }
+
+
+</table>

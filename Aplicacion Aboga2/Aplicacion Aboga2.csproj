@@ -154,11 +154,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BD.cs" />
-    <Compile Include="Models\Contactos.cs" />
-    <Compile Include="Models\ExpedienteContacto.cs" />
+    <Compile Include="Models\Contacto.cs" />
     <Compile Include="Models\Expediente.cs" />
+    <Compile Include="Models\Expediente_Contactos.cs" />
+    <Compile Include="Models\ExpedienteFojas.cs" />
     <Compile Include="Models\Juzgado.cs" />
     <Compile Include="Models\Tipo de expediente.cs" />
+    <Compile Include="Models\TipoContacto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -204,12 +206,15 @@
     <Content Include="Views\Backoffice\ABMExpedientes.cshtml" />
     <Content Include="Views\Backoffice\InsertarExpediente.cshtml" />
     <Content Include="Views\Backoffice\EdicionExpediente.cshtml" />
+    <Content Include="Views\Backoffice\InsertarContacto.cshtml" />
     <Content Include="Views\Backoffice\EdicionContacto.cshtml" />
-    <Content Include="Views\Backoffice\InsertarContactos.cshtml" />
-    <Content Include="Views\Backoffice\ContactosExpediente.cshtml" />
+    <Content Include="Views\Backoffice\ABMExpedienteFojas.cshtml" />
+    <Content Include="Views\Backoffice\InsertarExpedienteFojas.cshtml" />
+    <Content Include="Views\Backoffice\EdicionExpedienteFojas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Contactos\" />
     <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
